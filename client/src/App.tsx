@@ -2,6 +2,7 @@ import {Button} from "./components/ui/button";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import RootLayout from "./Layouts/RootLayout";
 import HomePage from "./pages/HomePage";
+import AuthProvider from "./auth/AuthProvider";
 
 const router = createBrowserRouter([
   {
@@ -21,9 +22,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <RouterProvider router={router} />
-    </>
+    </AuthProvider>
   );
 }
 
