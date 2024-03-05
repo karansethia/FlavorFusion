@@ -1,6 +1,11 @@
 import {type Request, type Response} from "express";
 import User from "../models/user";
 
+/**
+ *  Method to create a document with User model and pushes into MongoDB 'ffdb' database
+ * @param req - (Takes auth0Id, email and password as object)
+ * @param res - (returns status and json message)
+ */
 const registerController = async(req: Request, res: Response) => {
     const {auth0Id} = req.body;
     const existsingUser = await User.findOne({auth0Id});

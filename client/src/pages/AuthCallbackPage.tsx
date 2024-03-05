@@ -13,10 +13,11 @@ const AuthCallbackPage = (props: AuthCallbackPageProps) => {
   const navigate = useNavigate();
   const hasCreated = useRef(false);
   useEffect(() => {
-    if (user?.sub && user?.email && hasCreated.current) {
+    if (user?.sub && user?.email && !hasCreated.current) {
       registerUser({auth0Id: user.sub!, email: user.email!, name: user.name!});
       hasCreated.current = true;
     }
+    console.log(isSuccess);
     navigate("/");
   }, [registerUser, navigate, user]);
   return <div>Loading...</div>;

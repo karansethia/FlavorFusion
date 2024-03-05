@@ -10,10 +10,14 @@ const AuthProvider = ({children}: AuthProviderProps) => {
   const domain = import.meta.env.VITE_AUTH0_DOMAIN;
   const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_AUTH0_CALLBACK_URI;
-  if (!domain || !clientId || !redirectUri) {
+  const audience = import.meta.env.VITE_AUTH0_AUDIENCE;
+  if (!domain || !clientId || (!redirectUri && !audience)) {
     throw new Error("Unable to initialize auth");
   }
 
+  /**
+   * The auth logic is shifted to '/auth-callback' routes because useAuth0 and getAccessTokenSilently are required to be inside AuthProvider
+   */
   const redirectHandler = (appState?: AppState, user?: User) => {
     console.log("User: ", user);
     navigate("/auth-callback");
@@ -24,6 +28,7 @@ const AuthProvider = ({children}: AuthProviderProps) => {
       domain={domain}
       authorizationParams={{
         redirect_uri: redirectUri,
+        audience: audience,
       }}
       onRedirectCallback={redirectHandler}
     >
