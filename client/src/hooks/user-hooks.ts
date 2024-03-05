@@ -1,5 +1,5 @@
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
 import {axiosReq} from "@/lib/http";
+import {useAuth0} from "@auth0/auth0-react";
 import {useMutation} from "@tanstack/react-query";
 
 type RegisterUserRequestType = {
@@ -8,9 +8,20 @@ type RegisterUserRequestType = {
   name: string;
 };
 
+/**
+ * A custom hook for handling registration
+ * @params
+ * @returns
+ * */
 export const useRegisterNewUser = () => {
+  const {getAccessTokenSilently} = useAuth0();
   const registerNewUser = async (user: RegisterUserRequestType) => {
-    const response = await axiosReq.post("/user", {...user});
+    const accessToken = getAccessTokenSilently();
+    const response = await axiosReq.post(
+      "/user",
+      {...user},
+      {headers: {Authorization: `Bearer ${accessToken}`}}
+    );
   };
   const {
     mutate: registerUser,

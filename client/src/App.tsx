@@ -1,8 +1,8 @@
-import {Button} from "./components/ui/button";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Router, RouterProvider} from "react-router-dom";
 import RootLayout from "./Layouts/RootLayout";
 import HomePage from "./pages/HomePage";
 import AuthProvider from "./auth/AuthProvider";
+import AuthCallbackPage from "./pages/AuthCallbackPage";
 
 const router = createBrowserRouter([
   {
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {index: true, element: <HomePage />},
-      {path: "/auth-callback", element: <RootLayout />},
+      {path: "/auth-callback", element: <AuthCallbackPage />},
       {path: "/search/:city", element: <RootLayout />},
       {path: "/detail/:restaurantId", element: <RootLayout />},
       {path: "order-status", element: <RootLayout />},
@@ -22,9 +22,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    // <AuthProvider>
+    <RouterProvider router={router} />
+    // </AuthProvider>
   );
 }
 
