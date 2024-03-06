@@ -18,7 +18,7 @@ export const useRegisterNewUser = () => {
   const {getAccessTokenSilently} = useAuth0();
   const registerNewUser = async (user: RegisterUserRequestType) => {
     console.log("inside registerUser");
-    const accessToken = getAccessTokenSilently();
+    const accessToken = await getAccessTokenSilently();
     const response = await axiosReq.post(
       "/user",
       {...user},

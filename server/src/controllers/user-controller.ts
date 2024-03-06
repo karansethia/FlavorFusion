@@ -6,10 +6,10 @@ import User from "../models/user";
  * @param req - (Takes auth0Id, email and password as object)
  * @param res - (returns status and json message)
  */
-const registerController = async(req: Request, res: Response) => {
+const registerUserController = async(req: Request, res: Response) => {
     const {auth0Id} = req.body;
-    const existsingUser = await User.findOne({auth0Id});
-    if(existsingUser){
+    const existingUser = await User.findOne({auth0Id});
+    if(existingUser){
         return res.status(200).json({message: "User already exists"});
     }
     try{
@@ -18,9 +18,24 @@ const registerController = async(req: Request, res: Response) => {
     }catch (e) {
         return res.status(500).json({message: "Something went wrong"})
     }
-    // check if user exists
-    // create user if user does not exist
-    //return if registration successful
+}
+const updateUserController = async(req: Request, res:Response) => {
+    try{
+        const {name, addressLine, city,postalCode, country} = req.body;
+        const user = await User.findById(req.userId);
+        if(!user){
+            return res.status(404).json({message: "User not found"});
+
+        }
+        await User
+            .findByIdAndUpdate(user._id,
+                {name: name, address: addressLine,city: city,postalCode: postalCode,country: country});
+        return res.status(200).json({message: "Successfully updated information"});
+
+    }catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: "Error updating user"})
+    }
 }
 
-export default {registerController}
+export default {registerUserController, updateUserController}
