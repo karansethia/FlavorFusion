@@ -24,11 +24,8 @@ const UserMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <Link
-            to="/user-profile"
-            className="font-content hover:text-orange-500 "
-          >
-            Account
+          <Link to="/orders" className="font-content hover:text-orange-500 ">
+            Orders
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>

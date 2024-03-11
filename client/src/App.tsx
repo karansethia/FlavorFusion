@@ -3,6 +3,7 @@ import RootLayout from "./Layouts/RootLayout";
 import HomePage from "./pages/HomePage";
 import AuthProvider from "./auth/AuthProvider";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
       {path: "/search/:city", element: <RootLayout />},
       {path: "/detail/:restaurantId", element: <RootLayout />},
       {path: "order-status", element: <RootLayout />},
-      {path: "/user-profile", element: <RootLayout />},
+      {path: "/user-profile", element: <UserProfilePage />},
       {path: "/manage-restaurant", element: <RootLayout />},
     ],
   },
