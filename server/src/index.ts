@@ -1,4 +1,4 @@
-import express from 'express';
+import express,{Request, Response} from 'express';
 import cors from 'cors';
 import userRoutes from "./routes/user-routes";
 import 'dotenv/config';
@@ -9,6 +9,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
+app.get('/health',async(req:Request, res:Response)=> {
+    res.json({message: "Health ok"})
+})
 app.use('/api/v1', userRoutes)
 app.listen(3000,() => {
     try{

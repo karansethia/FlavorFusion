@@ -10,20 +10,24 @@ const UserProfilePage = () => {
   // console.log(userData);
 
   return (
-    <UserProfileForm
-      currentUser={currentUser!}
-      buttonText="Update"
-      isLoading={isPending}
-      onSave={updateUser}
-    />
+    <>
+      {!isLoading && (
+        <UserProfileForm
+          currentUser={currentUser!}
+          buttonText="Update"
+          isLoading={isPending}
+          onSave={updateUser}
+        />
+      )}
+      {isLoading && <p>Loading</p>}
+    </>
   );
 };
 
 export default UserProfilePage;
 
 // export const userDetailLoader = async () => {
-//   const {getAccessTokenSilently} = useAuth0();
-//   const accessToken = await getAccessTokenSilently();
+
 //   const response = await axiosReq.get("/user", {
 //     headers: {
 //       Authorization: `Bearer ${accessToken}`,

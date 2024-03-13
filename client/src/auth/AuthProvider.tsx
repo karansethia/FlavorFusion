@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {type AppState, type User, Auth0Provider} from "@auth0/auth0-react";
+import {type AppState, Auth0Provider} from "@auth0/auth0-react";
 import {useNavigate} from "react-router-dom";
 type AuthProviderProps = {
   children: ReactNode;
@@ -18,9 +18,7 @@ const AuthProvider = ({children}: AuthProviderProps) => {
   /**
    * The auth logic is shifted to '/auth-callback' routes because useAuth0 and getAccessTokenSilently are required to be inside AuthProvider
    */
-  const redirectHandler = (appState?: AppState, user?: User) => {
-    console.log("User: ", user);
-    // window.history.pushState(null, "", appState?.returnTo || "/auth-callback");
+  const redirectHandler = (appState?: AppState) => {
     navigate(appState?.returnTo || "/auth-callback");
   };
   return (
@@ -29,7 +27,7 @@ const AuthProvider = ({children}: AuthProviderProps) => {
       domain={domain}
       authorizationParams={{
         redirect_uri: redirectUri,
-        audience: audience,
+        audience,
       }}
       onRedirectCallback={redirectHandler}
     >

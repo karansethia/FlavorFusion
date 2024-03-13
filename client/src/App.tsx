@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import UserProfilePage from "./pages/UserProfilePage";
+import ProtectedRoute from "./auth/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,11 @@ const router = createBrowserRouter([
       {
         path: "/user-profile",
         // loader: userDetailLoader,
-        element: <UserProfilePage />,
+        element: (
+          <ProtectedRoute>
+            <UserProfilePage />
+          </ProtectedRoute>
+        ),
       },
       {path: "/manage-restaurant", element: <RootLayout />},
     ],

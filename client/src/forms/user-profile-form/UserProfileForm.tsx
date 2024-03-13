@@ -42,7 +42,14 @@ const UserProfileForm = ({
   isLoading,
   title = "User Profile",
   buttonText,
-  currentUser,
+  currentUser = {
+    email: "",
+    name: "",
+    addressLine: "",
+    city: "",
+    postalCode: 123,
+    country: "",
+  },
 }: UserProfileFormProps) => {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
@@ -51,7 +58,10 @@ const UserProfileForm = ({
 
   // updating user details in the form everytime user gets updated
   useEffect(() => {
-    form.reset(currentUser);
+    const formReset = () => {
+      form.reset(currentUser);
+    };
+    formReset();
   }, [form, currentUser]);
   return (
     <Form {...form}>
