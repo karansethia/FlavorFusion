@@ -13,6 +13,8 @@ import {
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import LoadingButton from "@/components/LoadingButton";
+import {UserDataType} from "@/lib/types";
+import {useEffect} from "react";
 
 const formSchema = z.object({
   email: z.string().optional(),
@@ -20,11 +22,15 @@ const formSchema = z.object({
   addressLine: z.string().min(1, "Address is required"),
   city: z.string().min(1, "City is required"),
   country: z.string().min(1, "Country is required"),
-  postalCode: z.number().min(1, "Country is required"),
+  postalCode: z
+    .string()
+    .min(1, "Postal Code is required")
+    .transform((v) => Number(v) || 0),
 });
 
 type UserFormData = z.infer<typeof formSchema>;
 type UserProfileFormProps = {
+  currentUser: UserDataType;
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
   title?: string;
@@ -34,12 +40,19 @@ type UserProfileFormProps = {
 const UserProfileForm = ({
   onSave,
   isLoading,
-  title,
+  title = "User Profile",
   buttonText,
+  currentUser,
 }: UserProfileFormProps) => {
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: currentUser,
   });
+
+  // updating user details in the form everytime user gets updated
+  useEffect(() => {
+    form.reset(currentUser);
+  }, [form, currentUser]);
   return (
     <Form {...form}>
       <form
@@ -78,14 +91,27 @@ const UserProfileForm = ({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="addressLine"
+          render={({field}) => (
+            <FormItem className="flex-1">
+              <FormLabel>Address Line</FormLabel>
+              <FormControl>
+                <Input {...field} className="bg-white" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="flex flex-col md:flex-row gap-4">
           <FormField
             control={form.control}
-            name="addressLine"
+            name="city"
             render={({field}) => (
               <FormItem className="flex-1">
-                <FormLabel>Address Line</FormLabel>
+                <FormLabel>City</FormLabel>
                 <FormControl>
                   <Input {...field} className="bg-white" />
                 </FormControl>
@@ -95,12 +121,12 @@ const UserProfileForm = ({
           />
           <FormField
             control={form.control}
-            name="city"
+            name="postalCode"
             render={({field}) => (
               <FormItem className="flex-1">
-                <FormLabel>City</FormLabel>
+                <FormLabel>Postal Code</FormLabel>
                 <FormControl>
-                  <Input {...field} className="bg-white" />
+                  <Input {...field} className="bg-white" type="number" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

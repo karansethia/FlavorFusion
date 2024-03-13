@@ -1,7 +1,12 @@
-import {createBrowserRouter, Router, RouterProvider} from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
 import RootLayout from "./Layouts/RootLayout";
-import HomePage from "./pages/HomePage";
 import AuthProvider from "./auth/AuthProvider";
+import HomePage from "./pages/HomePage";
+
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import UserProfilePage from "./pages/UserProfilePage";
 
@@ -15,18 +20,18 @@ const router = createBrowserRouter([
       {path: "/search/:city", element: <RootLayout />},
       {path: "/detail/:restaurantId", element: <RootLayout />},
       {path: "order-status", element: <RootLayout />},
-      {path: "/user-profile", element: <UserProfilePage />},
+      {
+        path: "/user-profile",
+        // loader: userDetailLoader,
+        element: <UserProfilePage />,
+      },
       {path: "/manage-restaurant", element: <RootLayout />},
     ],
   },
 ]);
 
 function App() {
-  return (
-    // <AuthProvider>
-    <RouterProvider router={router} />
-    // </AuthProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

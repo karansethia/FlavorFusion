@@ -20,7 +20,8 @@ const AuthProvider = ({children}: AuthProviderProps) => {
    */
   const redirectHandler = (appState?: AppState, user?: User) => {
     console.log("User: ", user);
-    navigate("/auth-callback");
+    // window.history.pushState(null, "", appState?.returnTo || "/auth-callback");
+    navigate(appState?.returnTo || "/auth-callback");
   };
   return (
     <Auth0Provider

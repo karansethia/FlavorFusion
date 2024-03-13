@@ -25,15 +25,18 @@ export const jwtCheck = auth({
 
 export const jwtParse = async(req:Request,res: Response, next: NextFunction) => {
     const {authorization} = req.headers;
+    console.log(authorization)
     if(!authorization || !authorization.startsWith("Bearer ")){
         return res.sendStatus(401)
     }
     const token = authorization.split(" ")[1];
+    console.log(token)
 
     try{
         const decoded = jwt.decode(token) as jwt.JwtPayload;
         const auth0Id = decoded.sub;
         const user = await User.findOne({auth0Id});
+        console.log(user)
         if(!user){
             return res.sendStatus(401);
         }
@@ -41,7 +44,7 @@ export const jwtParse = async(req:Request,res: Response, next: NextFunction) => 
         req.userId = user._id.toString();
         next();
     }catch (e) {
-        console.log(e.message);
+        console.log("Error: ", e.message);
         return res.status(401).json({message: "Something went wrong"})
     }
 }

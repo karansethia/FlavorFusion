@@ -19,9 +19,31 @@ const registerUserController = async(req: Request, res: Response) => {
         return res.status(500).json({message: "Something went wrong"})
     }
 }
+const getUserController = async(req:Request, res: Response) => {
+    try {
+        const user = await User.findById(req.userId);
+        if (!user) {
+            res.status(404).json({message: "User does not exist"});
+        }
+        const userDetails = {
+            name: user!.name,
+            addressLine: user!.address,
+            email: user!.email,
+            postalCode: user!.postalCode,
+            city: user!.city,
+            country: user!.country
+
+        }
+        res.status(200).json(userDetails)
+    }catch (e) {
+        res.status(500).json({message: "An internal error occurred"})
+    }
+
+}
 const updateUserController = async(req: Request, res:Response) => {
     try{
         const {name, addressLine, city,postalCode, country} = req.body;
+        console.log(name, postalCode);
         const user = await User.findById(req.userId);
         if(!user){
             return res.status(404).json({message: "User not found"});
@@ -38,4 +60,4 @@ const updateUserController = async(req: Request, res:Response) => {
     }
 }
 
-export default {registerUserController, updateUserController}
+export default {registerUserController, updateUserController, getUserController}
