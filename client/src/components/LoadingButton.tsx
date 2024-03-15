@@ -1,9 +1,9 @@
 import {Loader2} from "lucide-react";
 import {Button} from "./ui/button";
 
-type LoadingButtonProps = {};
+// type LoadingButtonProps = {};
 
-const LoadingButton = (props: LoadingButtonProps) => {
+const LoadingButton = () => {
   return (
     <Button disabled>
       <Loader2 className="mr-2 h-4 animate-spin" />

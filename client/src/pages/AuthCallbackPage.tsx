@@ -7,7 +7,7 @@ const AuthCallbackPage = () => {
   console.log("inside callback page");
 
   const {user} = useAuth0();
-  const {registerUser, isError, isPending, isSuccess} = useRegisterNewUser();
+  const {registerUser} = useRegisterNewUser();
   const navigate = useNavigate();
   const hasCreated = useRef(false);
   useEffect(() => {

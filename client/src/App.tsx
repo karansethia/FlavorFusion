@@ -1,10 +1,5 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useNavigate,
-} from "react-router-dom";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import RootLayout from "./Layouts/RootLayout";
-import AuthProvider from "./auth/AuthProvider";
 import HomePage from "./pages/HomePage";
 
 import AuthCallbackPage from "./pages/AuthCallbackPage";
