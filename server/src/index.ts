@@ -3,6 +3,15 @@ import cors from 'cors';
 import userRoutes from "./routes/user-routes";
 import 'dotenv/config';
 import connectDB from "./db/mongo";
+import {v2 as cloudinary} from 'cloudinary';
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+
+})
+
 
 const app = express();
 
@@ -19,7 +28,7 @@ app.listen(3000,() => {
         connectDB(process.env.MONGO_URI as string);
         console.log("MongoDB Connected");
     }catch (e) {
-        console.log(e);
+        console.log(e.message);
     }
 
 })
