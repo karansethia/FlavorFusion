@@ -16,3 +16,16 @@ export const validateUser = [
     body("postalCode").isNumeric().notEmpty().withMessage("Postal Code must be a number"),
     handleValidationErrors
 ]
+
+export const validateVendor = [
+    body("restaurantName").isString().notEmpty().withMessage("Name of restaurant is required"),
+    body("city").isString().notEmpty().withMessage("City is required"),
+    body("country").isString().notEmpty().withMessage("Country name is required"),
+    body("deliveryPrice").isFloat({min:0}).withMessage("Delivery price must be a positive number"),
+    body("estimatedDeliveryTime").isInt({min: 0}).withMessage("Delivery time must be a positive number"),
+    body("cuisines").isArray().withMessage("Cuisines must be an array").not().isEmpty().withMessage("Cuisines cant be empty"),
+    body("menuItems").isArray().withMessage("Menu Items must be an array").not().isEmpty().withMessage("Cuisines cant be empty"),
+    body("menuItems.*.name").notEmpty().withMessage("Name of the menu items is required"),
+    body("menuItems.*.price").isFloat({min: 0}).withMessage("Price of the menu items is required"),
+    handleValidationErrors
+]

@@ -1,6 +1,7 @@
 import express,{Request, Response} from 'express';
 import cors from 'cors';
 import userRoutes from "./routes/user-routes";
+import vendorRoutes from './routes/vendor-routes'
 import 'dotenv/config';
 import connectDB from "./db/mongo";
 import {v2 as cloudinary} from 'cloudinary';
@@ -22,7 +23,8 @@ app.use(cors());
 app.get('/health',async(req:Request, res:Response)=> {
     res.json({message: "Health ok"})
 })
-app.use('/api/v1', userRoutes)
+app.use('/api/v1', userRoutes);
+app.use('/api/v1', vendorRoutes);
 app.listen(3000,() => {
     try{
         connectDB(process.env.MONGO_URI as string);

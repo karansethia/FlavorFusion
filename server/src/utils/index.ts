@@ -4,7 +4,7 @@
  * then constructs a data URI string containing the MIME type of the image and the base64-encoded image data.
  * @param image
  */
-const imageToBase64 = (image: Express.Multer.File) : string => {
+export const imageToBase64 = (image: Express.Multer.File) : string => {
     const base64Image = Buffer.from(image.buffer).toString("base64");
     return `data:${image.mimetype};base64,${base64Image}`
 }
