@@ -1,10 +1,15 @@
-import express from "express";
+import express, {NextFunction, Request, Response} from "express";
 import multer from "multer";
 import vendorController from "../controllers/vendor-controller";
 import {jwtCheck, jwtParse} from "../middleware/auth";
 import {validateVendor} from "../middleware/validation";
 
 const router = express.Router();
+
+const logger = (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
+    next()
+}
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -16,7 +21,7 @@ const upload = multer({
 /**
  * Post request to create new restaurant
  */
-router.post('/restaurant',upload.single("imageFile"),validateVendor,jwtCheck, jwtParse , vendorController.registerRestaurant)
+router.post('/restaurant',upload.single("imageFile"),validateVendor,jwtCheck, jwtParse , vendorController.registerRestaurantController)
 
 
 export default router;

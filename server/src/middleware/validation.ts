@@ -18,14 +18,25 @@ export const validateUser = [
 ]
 
 export const validateVendor = [
-    body("restaurantName").isString().notEmpty().withMessage("Name of restaurant is required"),
-    body("city").isString().notEmpty().withMessage("City is required"),
-    body("country").isString().notEmpty().withMessage("Country name is required"),
-    body("deliveryPrice").isFloat({min:0}).withMessage("Delivery price must be a positive number"),
-    body("estimatedDeliveryTime").isInt({min: 0}).withMessage("Delivery time must be a positive number"),
-    body("cuisines").isArray().withMessage("Cuisines must be an array").not().isEmpty().withMessage("Cuisines cant be empty"),
-    body("menuItems").isArray().withMessage("Menu Items must be an array").not().isEmpty().withMessage("Cuisines cant be empty"),
-    body("menuItems.*.name").notEmpty().withMessage("Name of the menu items is required"),
-    body("menuItems.*.price").isFloat({min: 0}).withMessage("Price of the menu items is required"),
-    handleValidationErrors
-]
+    body("restaurantName").notEmpty().withMessage("Restaurant name is required"),
+    body("city").notEmpty().withMessage("City is required"),
+    body("country").notEmpty().withMessage("Country is required"),
+    body("deliveryPrice")
+        .isFloat({ min: 0 })
+        .withMessage("Delivery price must be a positive number"),
+    body("estimatedDeliveryTime")
+        .isInt({ min: 0 })
+        .withMessage("Estimated delivery time must be a postivie integar"),
+    body("cuisines")
+        .isArray()
+        .withMessage("Cuisines must be an array")
+        .not()
+        .isEmpty()
+        .withMessage("Cuisines array cannot be empty"),
+    body("menuItems").isArray().withMessage("Menu items must be an array"),
+    body("menuItems.*.name").notEmpty().withMessage("Menu item name is required"),
+    body("menuItems.*.price")
+        .isFloat({ min: 0 })
+        .withMessage("Menu item price is required and must be a postive number"),
+    handleValidationErrors,
+];

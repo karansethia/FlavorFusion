@@ -14,18 +14,14 @@ type RegisterUserRequestType = {
  * A custom hook for handling registration
  * */
 export const useRegisterNewUser = () => {
-  console.log("inside hook");
   const {getAccessTokenSilently} = useAuth0();
   const registerNewUser = async (user: RegisterUserRequestType) => {
-    console.log("inside registerUser");
     const accessToken = await getAccessTokenSilently();
     const response = await axiosReq.post(
       "/user",
       {...user},
       {headers: {Authorization: `Bearer ${accessToken}`}}
     );
-    console.log(response.data);
-    console.log(response.headers);
   };
   const {
     mutateAsync: registerUser,

@@ -3,7 +3,7 @@ import Restaurant from "../models/restaurant";
 import {v2 as cloudinary} from 'cloudinary';
 import {imageToBase64} from "../utils";
 
-const registerRestaurant = async(req: Request, res: Response) => {
+const registerRestaurantController = async(req: Request, res: Response) => {
     try{
         const existingRestaurant = await  Restaurant.findOne({user: req.userId});
         if(existingRestaurant){
@@ -24,4 +24,4 @@ const registerRestaurant = async(req: Request, res: Response) => {
     }
 }
 
-export default {registerRestaurant}
+export default {registerRestaurantController}

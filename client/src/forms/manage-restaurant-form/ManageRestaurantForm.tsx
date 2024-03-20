@@ -66,23 +66,35 @@ const ManageRestaurantForm = ({
 
   const submitHandler = (formDataJson: RestaurantFormDataType) => {
     //todo convert formDataJson to new FormData object
+    console.log(formDataJson);
+
     const formData = new FormData();
+
     formData.append("restaurantName", formDataJson.restaurantName);
-    formData.append("city", formDataJson.restaurantName);
-    formData.append("country", formDataJson.restaurantName);
+
+    formData.append("city", formDataJson.city);
+    formData.append("country", formDataJson.country);
+
+    formData.append("deliveryPrice", formDataJson.deliveryPrice.toString());
     formData.append(
       "estimatedDeliveryTime",
       formDataJson.estimatedDeliveryTime.toString()
     );
-    formData.append("deliveryPrice", formDataJson.deliveryPrice.toString());
-    formDataJson.cuisines.forEach((currentCuisine, index) => {
-      formData.append(`cuisines[${index}]`, currentCuisine);
+    formDataJson.cuisines.forEach((cuisine, index) => {
+      formData.append(`cuisines[${index}]`, cuisine);
     });
-    formDataJson.menuItems.forEach((item, index) => {
-      formData.append(`menuItems[${index}][name]`, item.name);
-      formData.append(`menuItems[${index}][price]`, item.price);
+    formDataJson.menuItems.forEach((menuItem, index) => {
+      formData.append(`menuItems[${index}][name]`, menuItem.name);
+      formData.append(
+        `menuItems[${index}][price]`,
+        (menuItem.price * 100).toString()
+      );
     });
-    formData.append("imageFile", formDataJson.imageFile);
+
+    if (formDataJson.imageFile) {
+      formData.append(`imageFile`, formDataJson.imageFile);
+    }
+
     onSave(formData);
   };
   return (
