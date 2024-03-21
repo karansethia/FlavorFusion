@@ -109,9 +109,6 @@ const ManageRestaurantForm = ({
       formData.append(`imageFile`, formDataJson.imageFile);
     }
 
-    for (const value of formData.values()) {
-      console.log(value);
-    }
     onSave(formData);
   };
   return (

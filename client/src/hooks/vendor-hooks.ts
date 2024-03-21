@@ -53,17 +53,15 @@ export const useUpdateVendor = () => {
     restaurantFormData: FormData
   ): Promise<RestaurantDataType> => {
     const accessToken = await getAccessTokenSilently();
-
+    for (const value of restaurantFormData.values()) {
+      console.log(value);
+    }
     const response = await axiosReq.put("/restaurant", restaurantFormData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "multipart/form-data",
       },
     });
-    if (response.status !== 201) {
-      console.log(error?.message);
-      throw new Error("Something went wrong");
-    }
 
     return response.data;
   };
@@ -78,7 +76,7 @@ export const useUpdateVendor = () => {
   });
 
   if (isSuccess) {
-    toast.success("Restaurant update");
+    toast.success("Restaurant updated");
   }
   if (isError && error) {
     console.log(error.message);
@@ -103,17 +101,11 @@ export const useGetRestaurant = () => {
     }
     return response.data;
   };
-  const {
-    data: restaurantDetails,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
+  const {data: restaurantDetails, isLoading} = useQuery({
     queryKey: ["restaurant"],
     queryFn: getVendorRequest,
+    retry: 1,
   });
-  if (isError && error) {
-    toast.error("Cant get Restaurant details");
-  }
+
   return {restaurantDetails, isLoading};
 };

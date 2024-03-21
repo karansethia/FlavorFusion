@@ -1,5 +1,5 @@
 import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm";
-import {useUpdateUser} from "@/hooks/user-hooks";
+
 import {
   useGetRestaurant,
   useRegisterVendor,

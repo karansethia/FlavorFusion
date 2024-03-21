@@ -20,7 +20,7 @@ const upload = multer({
 })
 
 router.get('/restaurant', jwtCheck,jwtParse, vendorController.getVendorController);
-router.put('/restaurant',validateVendor, jwtCheck,jwtParse, vendorController.updateVendorController)
+router.put('/restaurant',upload.single("imageFile"),validateVendor, jwtCheck,jwtParse, vendorController.updateVendorController)
 router.post('/restaurant',upload.single("imageFile"),validateVendor,jwtCheck, jwtParse , vendorController.registerRestaurantController)
 
 

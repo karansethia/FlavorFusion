@@ -22,6 +22,7 @@ export const useRegisterNewUser = () => {
       {...user},
       {headers: {Authorization: `Bearer ${accessToken}`}}
     );
+    return response.data;
   };
   const {
     mutateAsync: registerUser,
