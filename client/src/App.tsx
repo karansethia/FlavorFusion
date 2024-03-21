@@ -26,7 +26,14 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      {path: "/manage-restaurant", element: <ManageRestaurantPage />},
+      {
+        path: "/manage-restaurant",
+        element: (
+          <ProtectedRoute>
+            <ManageRestaurantPage />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);

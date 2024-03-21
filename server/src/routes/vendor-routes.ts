@@ -18,9 +18,9 @@ const upload = multer({
         fileSize: 5 * 1024 * 1024 //5mb
     }
 })
-/**
- * Post request to create new restaurant
- */
+
+router.get('/restaurant', jwtCheck,jwtParse, vendorController.getVendorController);
+router.put('/restaurant',validateVendor, jwtCheck,jwtParse, vendorController.updateVendorController)
 router.post('/restaurant',upload.single("imageFile"),validateVendor,jwtCheck, jwtParse , vendorController.registerRestaurantController)
 
 
