@@ -6,6 +6,8 @@ type AuthProviderProps = {
 };
 
 const AuthProvider = ({children}: AuthProviderProps) => {
+  console.log("inside auth provider");
+
   const navigate = useNavigate();
   const domain = import.meta.env.VITE_AUTH0_DOMAIN;
   const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
@@ -30,6 +32,8 @@ const AuthProvider = ({children}: AuthProviderProps) => {
         audience,
       }}
       onRedirectCallback={redirectHandler}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
     >
       {children}
     </Auth0Provider>

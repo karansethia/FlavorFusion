@@ -11,7 +11,7 @@ const AuthCallbackPage = () => {
   const navigate = useNavigate();
   const hasCreated = useRef(false);
   useEffect(() => {
-    console.log("UseEffect Running");
+    console.log("user: ", user);
 
     if (user?.sub && user?.email && !hasCreated.current) {
       registerUser({auth0Id: user.sub!, email: user.email!, name: user.name!});
