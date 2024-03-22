@@ -1,8 +1,16 @@
 import Hero from "@/components/Hero";
 import landingimg from "@/assets/landing.png";
 import appdownload from "@/assets/appdownload.png";
+import SearchBar, {SearchFormDataType} from "@/components/SearchBar";
+import {useNavigate} from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  const searchSubmitHandler = (searchFormValues: SearchFormDataType) => {
+    navigate({
+      pathname: `/search/${searchFormValues.searchQuery}`,
+    });
+  };
   return (
     <div>
       <Hero />
@@ -14,6 +22,10 @@ const HomePage = () => {
           <span className="text-lg text-slate-600  font-content">
             Food is now just one click away
           </span>
+          <SearchBar
+            placeholder="Search by city or town"
+            onSubmit={searchSubmitHandler}
+          />
         </div>
       </div>
       <div className="grid md:grid-cols-2 gap-5 my-10">

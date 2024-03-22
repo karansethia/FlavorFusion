@@ -12,7 +12,14 @@ const searchRestaurant = async(req:Request, res: Response) => {
         query["city"] = new RegExp(city, "i");
         const checkForCity = await Restaurant.countDocuments(query);
         if(checkForCity === 0){
-            return res.status(404).json([]);
+            return res.status(404).json( {
+                results: [],
+                pagination: {
+                    total: 0,
+                    page: 1,
+                    pages: 1,
+                }
+            });
         }
         // set query to return for the selected cuisine option
         if(selectedCuisines){
