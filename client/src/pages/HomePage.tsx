@@ -15,7 +15,7 @@ const HomePage = () => {
     <div>
       <Hero />
       <div className="container flex flex-col gap-12 flex-1 min-md:px-24">
-        <div className="bg-white rounded-md shadow-md py-8 flex flex-col gap-5 text-center -mt-12">
+        <div className="bg-white rounded-md shadow-md py-8 flex flex-col gap-5 text-center -mt-12 md:px-32">
           <h1 className="text-4xl text-orange-600 tracking-wide font-header font-small-caps">
             Tuck into a takeaway today
           </h1>

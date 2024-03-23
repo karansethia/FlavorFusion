@@ -23,5 +23,14 @@ export type RestaurantDataType = {
   cuisines: string[];
   menuItems: MenuItemType[];
   lastUpdated: string;
-  imageFile: File;
+  imageUrl: string;
+};
+
+export type RestaurantSearchResponse = {
+  results: RestaurantDataType[];
+  pagination: {
+    total: number;
+    page: number;
+    pages: number;
+  };
 };

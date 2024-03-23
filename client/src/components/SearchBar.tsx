@@ -16,7 +16,7 @@ type SearchBarProps = {
 
 const formSchema = z.object({
   searchQuery: z.string({
-    required_error: "Some search query is required",
+    required_error: "Restaurant name is required",
   }),
 });
 
@@ -24,7 +24,7 @@ const SearchBar = ({onSubmit, placeholder, onReset}: SearchBarProps) => {
   const form = useForm<SearchFormDataType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      searchQuery: "",
+      // searchQuery: "",
     },
   });
   const handleReset = () => {
