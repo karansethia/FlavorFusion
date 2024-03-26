@@ -25,11 +25,15 @@ const SearchResultCard = ({restaurant}: SearchResultCardProps) => {
           {restaurant.restaurantName}
         </h3>
         <div id="card-content" className="grid md:grid-cols-2 gap-2">
-          <div className="dlex flex-row flex-wrap">
+          <div className="flex flex-row flex-wrap">
             {restaurant.cuisines.map((item, index) => (
               <span className="flex">
-                <span>{item}</span>
-                {index < restaurant.cuisines.length - 1 && <Dot />}
+                <span className="text-sm text-gray-400 font-semibold">
+                  {item}
+                </span>
+                {index < restaurant.cuisines.length - 1 && (
+                  <Dot className="text-gray-400 font-semibold" />
+                )}
               </span>
             ))}
           </div>
@@ -40,7 +44,7 @@ const SearchResultCard = ({restaurant}: SearchResultCardProps) => {
             </div>
             <div className="flex items-center gap-1">
               <Banknote />
-              Delivery from Rs{restaurant.deliveryPrice}
+              Delivery from &#8377;{restaurant.deliveryPrice}
             </div>
           </div>
         </div>
