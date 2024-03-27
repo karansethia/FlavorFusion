@@ -13,6 +13,7 @@ export const useSearchRestaurant = (
       params.set("searchQuery", searchState.searchQuery);
       params.set("page", searchState.page.toString());
       params.set("selectedCuisines", searchState.selectedCuisines.join(","));
+      params.set("sortOption", searchState.sortOption);
       const response = await axiosReq.get(
         `/op/search/${city}?${params.toString()}`
       );
