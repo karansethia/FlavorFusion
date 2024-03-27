@@ -13,7 +13,7 @@ type SearchBarProps = {
   onSubmit: (formData: SearchFormDataType) => void;
   placeholder: string;
   onReset?: () => void;
-  searchQuery: string;
+  searchQuery?: string;
 };
 
 const formSchema = z.object({
@@ -31,7 +31,7 @@ const SearchBar = ({
   const form = useForm<SearchFormDataType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      searchQuery,
+      searchQuery: searchQuery ? searchQuery : "",
     },
   });
 
@@ -51,8 +51,8 @@ const SearchBar = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={`flex items-center flex-1 gap-3 justify-between flex-row border-2 rounded-2xl p-2 mx-5 ${
-          form.formState.errors.searchQuery && "border-red-600"
+        className={`flex items-center gap-3 justify-between flex-row border-2 rounded-xl p-2 ${
+          form.formState.errors.searchQuery && "border-red-500"
         }`}
       >
         <Search
@@ -69,7 +69,7 @@ const SearchBar = ({
                 <Input
                   placeholder={placeholder}
                   {...field}
-                  className="border-none shadow-none text-xl focus-visible:ring-0"
+                  className="border-none shadow-none text-lg focus-visible:ring-0"
                 />
               </FormControl>
             </FormItem>

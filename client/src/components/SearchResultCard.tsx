@@ -27,7 +27,7 @@ const SearchResultCard = ({restaurant}: SearchResultCardProps) => {
         <div id="card-content" className="grid md:grid-cols-2 gap-2">
           <div className="flex flex-row flex-wrap">
             {restaurant.cuisines.map((item, index) => (
-              <span className="flex">
+              <span className="flex" key={index}>
                 <span className="text-sm text-gray-400 font-semibold">
                   {item}
                 </span>

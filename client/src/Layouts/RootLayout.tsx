@@ -9,8 +9,9 @@ const RootLayout = () => {
     <AuthProvider>
       <div className="flex flex-col min-h-screen">
         <Header />
-
-        <Outlet />
+        <div className="my-4">
+          <Outlet />
+        </div>
         <Footer />
       </div>
     </AuthProvider>
