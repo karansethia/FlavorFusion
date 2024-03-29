@@ -20,6 +20,7 @@ const AuthProvider = ({children}: AuthProviderProps) => {
   /**
    * The auth logic is shifted to '/auth-callback' routes because useAuth0 and getAccessTokenSilently are required to be inside AuthProvider
    */
+  //appState.returnTo if we are trying to login from other pages like restaurant details before checkout
   const redirectHandler = (appState?: AppState) => {
     navigate(appState?.returnTo || "/auth-callback");
   };

@@ -7,6 +7,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
+import DetailPage from "./pages/DetailPage";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
       {index: true, element: <HomePage />},
       {path: "/auth-callback", element: <AuthCallbackPage />},
       {path: "/search/:city", element: <SearchPage />},
-      {path: "/detail/:restaurantId", element: <RootLayout />},
+      {path: "/details/:restaurantId", element: <DetailPage />},
       {path: "order-status", element: <RootLayout />},
       {
         path: "/user-profile",

@@ -28,13 +28,13 @@ const formSchema = z.object({
     .transform((v) => Number(v) || 0),
 });
 
-type UserFormData = z.infer<typeof formSchema>;
+export type UserFormData = z.infer<typeof formSchema>;
 type UserProfileFormProps = {
   currentUser: UserDataType;
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
   title?: string;
-  buttonText: string;
+  buttonText?: string;
 };
 
 const UserProfileForm = ({

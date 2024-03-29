@@ -7,7 +7,7 @@ export type UserDataType = {
   country: string;
 };
 
-type MenuItemType = {
+export type MenuItemType = {
   _id: string;
   name: string;
   price: number;
@@ -33,4 +33,11 @@ export type RestaurantSearchResponse = {
     page: number;
     pages: number;
   };
+};
+
+export type CartItemType = {
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
 };
