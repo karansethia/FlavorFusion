@@ -49,11 +49,13 @@ const CheckoutButton = ({onCheckout, disabled}: CheckoutButtonProps) => {
       <DialogTrigger asChild>
         <Button className="bg-orange-500 flex-1">Go to checkout</Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[45px] md:min-w-[700px] bg-gray-50">
+      <DialogContent className="max-w-[45px] md:min-w-[700px] bg-gray-50 m-0 p-0">
         <UserProfileForm
           currentUser={currentUser}
           onSave={onCheckout}
           isLoading={isGetUserLoading}
+          buttonText="Checkout"
+          title="Checkout"
         />
       </DialogContent>
     </Dialog>

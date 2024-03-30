@@ -9,6 +9,7 @@ import {useState} from "react";
 import {Card, CardFooter} from "@/components/ui/card";
 import OrderSummary from "@/components/OrderSummary";
 import CheckoutButton from "@/components/CheckoutButton";
+import {UserFormData} from "@/forms/user-profile-form/UserProfileForm";
 
 const DetailPage = () => {
   const {restaurantId} = useParams();
@@ -65,6 +66,9 @@ const DetailPage = () => {
       return updatedCartItems;
     });
   };
+  const checkoutHandler = (userFormData: UserFormData) => {
+    console.log("user form data", userFormData);
+  };
   if (isLoading || !restaurantDetails) {
     return <p>Loading</p>;
   }
@@ -97,7 +101,10 @@ const DetailPage = () => {
               onRemoveFromCart={removeFromCartHandler}
             />
             <CardFooter>
-              <CheckoutButton />
+              <CheckoutButton
+                disabled={cartItems.length === 0}
+                onCheckout={checkoutHandler}
+              />
             </CardFooter>
           </Card>
         </div>

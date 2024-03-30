@@ -15,6 +15,7 @@ import {Button} from "@/components/ui/button";
 import LoadingButton from "@/components/LoadingButton";
 import {UserDataType} from "@/lib/types";
 import {useEffect} from "react";
+import {ReceiptIndianRupee} from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().optional(),
@@ -41,7 +42,7 @@ const UserProfileForm = ({
   onSave,
   isLoading,
   title = "User Profile",
-  buttonText,
+  buttonText = "Submit",
   currentUser = {
     email: "",
     name: "",
@@ -70,7 +71,10 @@ const UserProfileForm = ({
         className="mx-5 px-5 md:mx-10 shadow-md my-5 space-y-4 bg-gray-50 rounded-lg md:p-10"
       >
         <div>
-          <h2 className="text-2xl font-bold">{title}</h2>
+          <h3 className="text-2xl font-bold flex flex-row items-center gap-2">
+            {title === "Checkout" && <ReceiptIndianRupee />}
+            {title}
+          </h3>
           <FormDescription>
             View and change your profile information here
           </FormDescription>
@@ -80,7 +84,7 @@ const UserProfileForm = ({
           name="email"
           render={({field}) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-xs">Email</FormLabel>
               <FormControl>
                 <Input {...field} disabled className="bg-white" />
               </FormControl>
@@ -93,7 +97,7 @@ const UserProfileForm = ({
           name="name"
           render={({field}) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel className="text-xs">Name</FormLabel>
               <FormControl>
                 <Input {...field} className="bg-white" />
               </FormControl>
@@ -106,7 +110,7 @@ const UserProfileForm = ({
           name="addressLine"
           render={({field}) => (
             <FormItem className="flex-1">
-              <FormLabel>Address Line</FormLabel>
+              <FormLabel className="text-xs">Address Line</FormLabel>
               <FormControl>
                 <Input {...field} className="bg-white" />
               </FormControl>
@@ -121,7 +125,7 @@ const UserProfileForm = ({
             name="city"
             render={({field}) => (
               <FormItem className="flex-1">
-                <FormLabel>City</FormLabel>
+                <FormLabel className="text-xs">City</FormLabel>
                 <FormControl>
                   <Input {...field} className="bg-white" />
                 </FormControl>
@@ -134,7 +138,7 @@ const UserProfileForm = ({
             name="postalCode"
             render={({field}) => (
               <FormItem className="flex-1">
-                <FormLabel>Postal Code</FormLabel>
+                <FormLabel className="text-xs">Postal Code</FormLabel>
                 <FormControl>
                   <Input {...field} className="bg-white" type="number" />
                 </FormControl>
@@ -147,7 +151,7 @@ const UserProfileForm = ({
             name="country"
             render={({field}) => (
               <FormItem className="flex-1">
-                <FormLabel>Country</FormLabel>
+                <FormLabel className="text-xs">Country</FormLabel>
                 <FormControl>
                   <Input {...field} className="bg-white" />
                 </FormControl>
