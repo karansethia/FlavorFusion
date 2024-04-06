@@ -10,10 +10,12 @@ import {Card, CardFooter} from "@/components/ui/card";
 import OrderSummary from "@/components/OrderSummary";
 import CheckoutButton from "@/components/CheckoutButton";
 import {UserFormData} from "@/forms/user-profile-form/UserProfileForm";
+import {useCreateCheckoutSession} from "@/hooks/order-hooks";
 
 const DetailPage = () => {
   const {restaurantId} = useParams();
   const {restaurantDetails, isLoading} = useGetRestaurantDetails(restaurantId);
+  const {createCheckooutSession, isPending} = useCreateCheckoutSession();
   const [cartItems, setCartItems] = useState<CartItemType[]>(() => {
     const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
     return storedCartItems ? JSON.parse(storedCartItems) : [];
@@ -66,8 +68,30 @@ const DetailPage = () => {
       return updatedCartItems;
     });
   };
-  const checkoutHandler = (userFormData: UserFormData) => {
+  const checkoutHandler = async (userFormData: UserFormData) => {
+    if (!restaurantDetails) {
+      return;
+    }
     console.log("user form data", userFormData);
+    const checkoutData = {
+      cartItems: cartItems.map((item) => ({
+        menuItemId: item._id,
+        name: item.name,
+        quantity: item.quantity.toString(),
+      })),
+      restaurantId: restaurantDetails._id,
+      deliveryDetails: {
+        name: userFormData.name,
+        email: userFormData.email as string,
+        addressLine: userFormData.addressLine,
+        city: userFormData.city,
+        country: userFormData.country,
+        postalCode: userFormData.postalCode,
+      },
+    };
+
+    const data = await createCheckooutSession(checkoutData);
+    window.location.href = data.url;
   };
   if (isLoading || !restaurantDetails) {
     return <p>Loading</p>;
@@ -104,6 +128,7 @@ const DetailPage = () => {
               <CheckoutButton
                 disabled={cartItems.length === 0}
                 onCheckout={checkoutHandler}
+                isLoading={isPending}
               />
             </CardFooter>
           </Card>

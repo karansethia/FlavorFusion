@@ -1,5 +1,6 @@
 import {MenuItemType} from "../models/restaurant";
 import Stripe from "stripe";
+
 const STRIPE = new Stripe(process.env.STRIPE_API_KEY as string)
 const frontendUrl = process.env.FRONTEND_URL as string;
 
@@ -15,7 +16,7 @@ export const imageToBase64 = (image: Express.Multer.File) : string => {
     return `data:${image.mimetype};base64,${base64Image}`
 }
 
-type CheckoutSessionRequestType = {
+export type CheckoutSessionRequestType = {
     cartItems: {
         menuItemId: string;
         name: string;
@@ -26,7 +27,8 @@ type CheckoutSessionRequestType = {
         name: string;
         addressLine: string;
         city: string;
-        postalCode: string;
+        country:string;
+        postalCode: number;
     };
     restaurantId: string;
 }
@@ -34,42 +36,48 @@ export const createLineItems = (checkoutSessionRequest: CheckoutSessionRequestTy
     // => for each cart item get the menu item from the restaurant
     // => for each cart item convert it to stripe line item
     // => return line item array
-    const lineItems = checkoutSessionRequest.cartItems.map((cartItem)=>{
+    console.log(menuItems)
+    return checkoutSessionRequest.cartItems.map((cartItem) => {
         const menuItem = menuItems.find(item => item._id.toString() === cartItem.menuItemId.toString())
 
-        if(!menuItem){
+        if (!menuItem) {
             throw new Error("Menu Item not found")
         }
         const line_item: Stripe.Checkout.SessionCreateParams.LineItem = {
             price_data: {
-                currency: "inr",
+                currency: "USD",
                 unit_amount: menuItem.price,
                 product_data: {name: menuItem.name}
             },
             quantity: parseInt(cartItem.quantity),
+
         }
         return line_item
-    });
-    return lineItems
+    })
 
 }
 
 export const createSession = async(lineItems: Stripe.Checkout.SessionCreateParams.LineItem[],
                             orderId: string,deliveryPrice: number,
                             restaurantId: string) => {
-    const sessionData = await STRIPE.checkout.sessions.create({
+    console.log(lineItems)
+
+    return await STRIPE.checkout.sessions.create({
         line_items: lineItems,
         shipping_options: [{
             shipping_rate_data: {
+
                 display_name: "Delivery",
                 type: "fixed_amount",
                 fixed_amount: {
                     amount: deliveryPrice,
-                    currency: "inr"
+                    currency: "USD"
                 }
-            }
+            },
+
         }],
         mode: "payment",
+
         metadata: {
             orderId,
             restaurantId
@@ -77,6 +85,4 @@ export const createSession = async(lineItems: Stripe.Checkout.SessionCreateParam
         success_url: `${frontendUrl}/order-status?success=true`,
         cancel_url: `${frontendUrl}/detail/${restaurantId}?cancelled=true`
     })
-
-    return sessionData
 }

@@ -12,9 +12,14 @@ import {useGetUserDetails} from "@/hooks/user-hooks";
 type CheckoutButtonProps = {
   onCheckout: (userFormData: UserFormData) => void;
   disabled: boolean;
+  isLoading: boolean;
 };
 
-const CheckoutButton = ({onCheckout, disabled}: CheckoutButtonProps) => {
+const CheckoutButton = ({
+  onCheckout,
+  disabled,
+  isLoading,
+}: CheckoutButtonProps) => {
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
@@ -41,7 +46,7 @@ const CheckoutButton = ({onCheckout, disabled}: CheckoutButtonProps) => {
       </Button>
     );
   }
-  if (isAuthLoading || !currentUser) {
+  if (isAuthLoading || !currentUser || isLoading) {
     return <LoadingButton />;
   }
   return (

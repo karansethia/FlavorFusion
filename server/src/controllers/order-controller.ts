@@ -1,33 +1,21 @@
 import {Request, Response} from "express";
 import Stripe from 'stripe';
-import Restaurant, {MenuItemType} from "../models/restaurant";
-import {createLineItems, createSession} from "../utils";
+import Restaurant from "../models/restaurant";
+import {createLineItems, createSession, type CheckoutSessionRequestType} from "../utils";
 
 
-type CheckoutSessionRequestType = {
-    cartItems: {
-        menuItemId: string;
-        name: string;
-        quantity: string;
-    }[];
-    deliveryDetails: {
-        email: string;
-        name: string;
-        addressLine: string;
-        city: string;
-        postalCode: string;
-    };
-    restaurantId: string;
-}
 
 const createCheckoutSession = async(req:Request, res:Response) => {
     try{
-        const checkoutSessionRequest: CheckoutSessionRequestType = req.body;
-        const restaurant = await Restaurant.findById(checkoutSessionRequest.restaurantId);
+        const checkoutSessionReq= req.body.checkoutSessionRequest;
+        console.log(checkoutSessionReq)
+        const restaurant = await Restaurant.findById(checkoutSessionReq.restaurantId);
+        console.log(restaurant)
         if(!restaurant){
-            throw new Error("Restaurant not found")
+            console.log("restaurant not found here");
+            throw new Error("Restaurant not found");
         }
-        const lineItems = createLineItems(checkoutSessionRequest, restaurant.menuItems);
+        const lineItems = createLineItems(checkoutSessionReq, restaurant.menuItems);
         const session = await createSession(lineItems,
             "TEST_ORDER_ID", restaurant.deliveryPrice,restaurant._id.toString())
         if(!session.url){
