@@ -26,7 +26,7 @@ export const useCreateCheckoutSession = () => {
   ) => {
     const accessToken = await getAccessTokenSilently();
     const response = await axiosReq.post(
-      "/order//checkout/create-checkout-session",
+      "/order/checkout/create-checkout-session",
       {checkoutSessionRequest},
       {
         headers: {
