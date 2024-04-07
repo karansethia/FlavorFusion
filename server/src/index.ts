@@ -18,10 +18,12 @@ cloudinary.config({
 
 const app = express();
 
-app.use(express.json());
 app.use(cors());
 
 
+// this is done to convert the incoming webhook data to raw data instead of json (for security and validation reasons)
+app.use('/api/v1/order/checkout/webhook', express.raw({type: "*/*"}))
+app.use(express.json());
 app.get('/health',async(req:Request, res:Response)=> {
     res.json({message: "Health ok"})
 })
@@ -31,8 +33,10 @@ app.use('/api/v1/op', userOperationRoutes);
 app.use('/api/v1/order', orderRoutes)
 app.listen(3000,() => {
     try{
-        connectDB(process.env.MONGO_URI as string);
+        connectDB(process.env.MONGO_URI as string)
+
         console.log("MongoDB Connected");
+
     }catch (e) {
         console.log(e.message);
     }

@@ -1,7 +1,7 @@
 import {MenuItemType} from "../models/restaurant";
 import Stripe from "stripe";
 
-const STRIPE = new Stripe(process.env.STRIPE_API_KEY as string)
+export const STRIPE = new Stripe(process.env.STRIPE_API_KEY as string)
 const frontendUrl = process.env.FRONTEND_URL as string;
 
 
@@ -36,7 +36,7 @@ export const createLineItems = (checkoutSessionRequest: CheckoutSessionRequestTy
     // => for each cart item get the menu item from the restaurant
     // => for each cart item convert it to stripe line item
     // => return line item array
-    console.log(menuItems)
+    // console.log(menuItems)
     return checkoutSessionRequest.cartItems.map((cartItem) => {
         const menuItem = menuItems.find(item => item._id.toString() === cartItem.menuItemId.toString())
 
