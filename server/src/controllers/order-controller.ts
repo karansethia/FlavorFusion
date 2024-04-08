@@ -1,9 +1,18 @@
 import {Request, Response} from "express";
-import Stripe from 'stripe';
 import Restaurant from "../models/restaurant";
 import {createLineItems, createSession, STRIPE} from "../utils";
 import Order from "../models/order";
 
+
+const getOrdersController = async(req: Request, res: Response) => {
+    try{
+        const orders = await Order.find({user: req.userId}).populate("restaurant").populate("user")
+        res.json(orders)
+    }catch (e) {
+        console.log(e);
+        return res.status(500).json({message: "Something went wrong"})
+    }
+}
 
 const stripeWebhookController = async(req:Request, res:Response) => {
     let event
@@ -53,5 +62,5 @@ const createCheckoutSessionController = async(req:Request, res:Response) => {
     }
 }
 
-export default {createCheckoutSessionController, stripeWebhookController}
+export default {createCheckoutSessionController, stripeWebhookController, getOrdersController}
 

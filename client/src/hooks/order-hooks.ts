@@ -1,7 +1,9 @@
 import {axiosReq} from "@/lib/http";
+import {Order} from "@/lib/types";
 import {useAuth0} from "@auth0/auth0-react";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import {toast} from "sonner";
+
 type CheckoutSessionRequestType = {
   cartItems: {
     menuItemId: string;
@@ -51,4 +53,31 @@ export const useCreateCheckoutSession = () => {
     reset();
   }
   return {createCheckooutSession, isPending};
+};
+
+export const useGetOrder = () => {
+  const {getAccessTokenSilently} = useAuth0();
+  const getOrderRequest = async (): Promise<Order[]> => {
+    const accessToken = await getAccessTokenSilently();
+    const response = await axiosReq.get("/order", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  };
+  const {
+    data: orders,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["orders"],
+    queryFn: getOrderRequest,
+  });
+  if (isError) {
+    console.log(error);
+    toast.error("Something went wrong");
+  }
+  return {orders, isLoading};
 };
