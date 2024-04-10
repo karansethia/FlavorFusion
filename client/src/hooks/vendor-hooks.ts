@@ -113,7 +113,7 @@ export const useGetRestaurant = () => {
 export const useGetRestaurantOrders = () => {
   const {getAccessTokenSilently} = useAuth0();
 
-  const getOrders = async (): Promise<Order> => {
+  const getOrders = async (): Promise<Order[]> => {
     const accessToken = await getAccessTokenSilently();
     const response = await axiosReq.get("/orders", {
       headers: {
