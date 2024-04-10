@@ -18,7 +18,7 @@ const upload = multer({
         fileSize: 5 * 1024 * 1024 //5mb
     }
 })
-
+router.get('/orders', jwtCheck, jwtParse, vendorController.getVendorOrdersController)
 router.get('/restaurant', jwtCheck,jwtParse, vendorController.getVendorController);
 router.put('/restaurant',upload.single("imageFile"),validateVendor, jwtCheck,jwtParse, vendorController.updateVendorController)
 router.post('/restaurant',upload.single("imageFile"),validateVendor,jwtCheck, jwtParse , vendorController.registerRestaurantController)

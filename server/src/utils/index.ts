@@ -1,5 +1,6 @@
 import {MenuItemType} from "../models/restaurant";
 import Stripe from "stripe";
+import {v2 as cloudinary} from 'cloudinary';
 
 export const STRIPE = new Stripe(process.env.STRIPE_API_KEY as string)
 const frontendUrl = process.env.FRONTEND_URL as string;
@@ -15,6 +16,15 @@ export const imageToBase64 = (image: Express.Multer.File) : string => {
     const base64Image = Buffer.from(image.buffer).toString("base64");
     return `data:${image.mimetype};base64,${base64Image}`
 }
+
+export const uploadImage = async (file: Express.Multer.File) => {
+    const image = file;
+    const base64Image = Buffer.from(image.buffer).toString("base64");
+    const dataURI = `data:${image.mimetype};base64,${base64Image}`;
+
+    const uploadResponse = await cloudinary.uploader.upload(dataURI);
+    return uploadResponse.url;
+};
 
 export type CheckoutSessionRequestType = {
     cartItems: {

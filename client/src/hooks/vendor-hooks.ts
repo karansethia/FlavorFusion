@@ -1,5 +1,5 @@
 import {axiosReq} from "@/lib/http";
-import {RestaurantDataType} from "@/lib/types";
+import {Order, RestaurantDataType} from "@/lib/types";
 import {useAuth0} from "@auth0/auth0-react";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {toast} from "sonner";
@@ -108,4 +108,26 @@ export const useGetRestaurant = () => {
   });
 
   return {restaurantDetails, isLoading};
+};
+
+export const useGetRestaurantOrders = () => {
+  const {getAccessTokenSilently} = useAuth0();
+
+  const getOrders = async (): Promise<Order> => {
+    const accessToken = await getAccessTokenSilently();
+    const response = await axiosReq.get("/orders", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  };
+
+  const {data: orders, isLoading} = useQuery({
+    queryKey: ["orders"],
+    queryFn: getOrders,
+    retry: 1,
+  });
+
+  return {orders, isLoading};
 };
