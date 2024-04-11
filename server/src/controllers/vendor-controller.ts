@@ -71,7 +71,7 @@ const updateVendorController = async (req: Request, res: Response) => {
 const getVendorOrdersController = async (req: Request, res: Response) => {
     try {
         const restaurant = await Restaurant.findOne({user: req.userId});
-        if(!restaurant){
+        if (!restaurant) {
             return res.status(404).json({message: "Restaurant not found"})
         }
         const orders = await Order.find({restaurant: restaurant._id}).populate("restaurant").populate("user");
@@ -82,5 +82,33 @@ const getVendorOrdersController = async (req: Request, res: Response) => {
     }
 }
 
+const updateVendorOrdersController = async (req: Request, res: Response) => {
+    try {
+        const {orderId} = req.params;
+        const {status} = req.body;
+        const order = await Order.findById(orderId);
+        if (!order) {
+            res.status(404).json({message: "Order not found"})
+        }
+        const restaurant = await Restaurant.findById(order!.restaurant);
+        if (restaurant?.user?._id.toString() !== req.userId) {
+            res.sendStatus(401);
+        }
+        order!.status = status;
+        await order!.save();
+        res.status(200).json(order)
 
-export default {registerRestaurantController, getVendorController, updateVendorController, getVendorOrdersController}
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({message: "Something went wrong"})
+    }
+}
+
+
+export default {
+    registerRestaurantController,
+    getVendorController,
+    updateVendorController,
+    getVendorOrdersController,
+    updateVendorOrdersController
+}

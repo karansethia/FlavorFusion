@@ -13,7 +13,7 @@ export const ORDER_STATUS: OrderStatusInfo = [
     progress: 0,
   },
   {
-    label: "Awaiting Restaurant Conformation",
+    label: "Awaiting Restaurant Confirmation",
     value: "paid",
     progress: 25,
   },

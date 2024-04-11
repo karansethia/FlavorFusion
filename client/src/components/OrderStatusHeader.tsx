@@ -18,6 +18,8 @@ const OrderStatusHeader = ({order}: OrderStatusHeaderProps) => {
     return `${hours}:${paddedMinutes}`;
   };
   const getOrderStatus = () => {
+    console.log(order);
+
     return (
       ORDER_STATUS.find((o) => o.value === order.status) || ORDER_STATUS[0]
     );

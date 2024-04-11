@@ -131,3 +131,47 @@ export const useGetRestaurantOrders = () => {
 
   return {orders, isLoading};
 };
+
+type UpdateOrderStatusRequest = {
+  orderId: string;
+  status: string;
+};
+
+export const useUpdateRestaurantOrders = () => {
+  const {getAccessTokenSilently} = useAuth0();
+  const updateOrderRequest = async (
+    updateStatusOrderRequest: UpdateOrderStatusRequest
+  ) => {
+    const accessToken = await getAccessTokenSilently();
+    const response = await axiosReq.patch(
+      `/orders/${updateStatusOrderRequest.orderId}/status`,
+      updateStatusOrderRequest.status,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  };
+
+  const {
+    mutateAsync: updateOrderStatus,
+    isPending,
+    isError,
+    isSuccess,
+    reset,
+  } = useMutation({
+    mutationFn: updateOrderRequest,
+  });
+
+  if (isSuccess) {
+    toast.success("Order updated");
+  }
+  if (isError) {
+    toast.error("Could not update order");
+    reset();
+  }
+
+  return {updateOrderStatus, isPending};
+};
