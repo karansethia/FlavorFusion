@@ -28,16 +28,19 @@ const ManageRestaurantPage = () => {
         <h2 className="text-2xl font-semibold">
           Active Orders : {orders?.length}
         </h2>
-        {orders?.map((order) => (
-          <OrderItemCard order={order} />
-        ))}
+        {!isOrderLoading &&
+          orders?.map((order) => <OrderItemCard order={order} />)}
+        {isOrderLoading && <p>Loading</p>}
       </TabsContent>
       <TabsContent value="manage-restaurant">
-        <ManageRestaurantForm
-          onSave={isEditing ? updateVendor : registerVendor}
-          isLoading={isPending || isUpdating}
-          restaurant={restaurantDetails}
-        />
+        {isLoading && <p>Loading</p>}
+        {!isLoading && (
+          <ManageRestaurantForm
+            onSave={isEditing ? updateVendor : registerVendor}
+            isLoading={isPending || isUpdating}
+            restaurant={restaurantDetails}
+          />
+        )}
       </TabsContent>
     </Tabs>
   );
